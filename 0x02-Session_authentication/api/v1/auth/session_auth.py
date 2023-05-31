@@ -6,6 +6,8 @@ SessionAuth module
 
 from api.v1.auth.auth import Auth
 from uuid import uuid4
+from typing import TypeVar
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -34,3 +36,14 @@ class SessionAuth(Auth):
         if not session_id or type(session_id) != str:
             return
         return SessionAuth.user_id_by_session_id.get(session_id, None)
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        Method: current_user - returns a User instance based on a cookie value.
+        """
+
+        if request:
+            _my_session_id = self.session_cookie(request)
+            if _my_session_id:
+                user_id = self.user_id_for_session_id(_my_session_id)
+                return User.get(user_id)

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-""" Flask class
+"""
+Flask class
 """
 
-from flask import Flask, jsonify, request, abort, redirect
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
